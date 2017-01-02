@@ -1,0 +1,25 @@
+@(names: List[String])
+
+@main("Key Players") {
+
+	<h2>All products</h2>
+	<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Names</th>
+		</tr>
+	</thead>
+	<tbody>
+	@for(name <- names) {
+	    <tr>
+	    	<td>
+	    		<a href="@routes.AttendeesController.getAll">
+					@name
+				</a><
+	    	</td>
+	    </tr>
+		
+	}
+	
+
+}
