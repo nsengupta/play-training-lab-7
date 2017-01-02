@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.google.inject.Inject;
 
-import models.AttendeesDB;
-import models.SoccerAttendee;
+import models.attendees.AttendeesManager;
+import models.attendees.StarPlayers.SoccerAttendeeDataCarrier;
 import play.data.Form;
 import play.data.FormFactory;
 import play.mvc.Controller;
@@ -25,26 +25,31 @@ public class AttendeesController extends Controller {
      */
 	@Inject
     FormFactory formFactory;
+	private AttendeesManager attendeesManager;
 	
-	private AttendeesDB attendeesDB = new AttendeesDB();
+	@Inject
+	public AttendeesController(AttendeesManager attendeesManager) {
+		this.attendeesManager = attendeesManager;
+	}
+	
 	
     public Result index() {
         return ok(index.render("Attendees Application is being readied."));
     }
     
     public Result getAll() {
-    	List<String> all =  attendeesDB.getAll();
+    	List<String> all =  this.attendeesManager.getAll();
     	return ok(list.render(all));
     }
     
     public Result getBySurname(String surname) {
-    	String retrievedName = attendeesDB.getBySurname(surname);
+    	String retrievedName = this.attendeesManager.getBySurname(surname);
     	return ok(bysname.render(retrievedName));
     }
     
     public Result count() {
-    	int attendeeCount = attendeesDB.attendeeCount();
-    	return ok(count.render(attendeeCount));
+    	int attendeeCountAtPresent = this.attendeesManager.attendeeCount();
+    	return ok(count.render(attendeeCountAtPresent));
     }
     
     public Result addAttendee(String surname,String firstname) {
@@ -52,15 +57,19 @@ public class AttendeesController extends Controller {
     }
     
     public Result addSoccerAttendeeThruForm() {
-    	Form<SoccerAttendee> attendeeForm = formFactory.form(SoccerAttendee.class);
-    	attendeeForm.fill(new SoccerAttendee("LastName here","Firstname here"));
+    	Form<SoccerAttendeeDataCarrier> attendeeForm = formFactory.form(SoccerAttendeeDataCarrier.class);
+    	attendeeForm.fill(new SoccerAttendeeDataCarrier("LastName here","Firstname here"));
     	return ok(newSoccerAttendeeDetails.render(attendeeForm));
     	
     }
     
     public Result saveSoccerAttendeeThruForm() {
-    	Form<SoccerAttendee> attendeeForm = formFactory.form(SoccerAttendee.class).bindFromRequest();
-    	attendeesDB.addNewAttendee(attendeeForm.get());
+    	Form<SoccerAttendeeDataCarrier> attendeeForm = formFactory.form(SoccerAttendeeDataCarrier.class).bindFromRequest();
+    	this.attendeesManager
+    	    .addNewAttendee(
+    	    			attendeeForm.apply("surname").value(), 
+    	    			attendeeForm.apply("firstname").value()
+    	    		);
     	return ok(String
     			.format("New Soccer Player %s,%s added", 
     					 attendeeForm.apply("firstName").value(),
