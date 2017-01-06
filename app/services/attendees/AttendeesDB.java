@@ -1,4 +1,4 @@
-package models.attendees.StarPlayers;
+package services.attendees;
 
 
 import java.util.ArrayList;

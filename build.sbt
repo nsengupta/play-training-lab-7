@@ -14,5 +14,10 @@ libraryDependencies ++= Seq(
 
 libraryDependencies += "org.webjars" % "bootstrap" % "3.3.6"
 
+libraryDependencies ++= Seq(
+  "junit" % "junit" % "4.12" % "test",
+  "com.novocode" % "junit-interface" % "0.11" % "test"
+)
+
 
 fork in run := true

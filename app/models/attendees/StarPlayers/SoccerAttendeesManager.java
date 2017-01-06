@@ -3,6 +3,8 @@ package models.attendees.StarPlayers;
 import java.util.ArrayList;
 import java.util.List;
 
+import services.attendees.AttendeesDB;
+
 import com.google.inject.Inject;
 
 import models.attendees.AttendeesManager;

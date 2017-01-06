@@ -2,13 +2,14 @@ package org.sapient.modelUnitTests;
 
 import java.util.List;
 
+import models.attendees.StarPlayers.SoccerAttendeesManager;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import services.attendees.AttendeesDB;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
-import models.attendees.StarPlayers.AttendeesDB;
-import models.attendees.StarPlayers.SoccerAttendeesManager;
 
 public class SoccerAttendeeTest {
 	
@@ -29,6 +30,7 @@ public class SoccerAttendeeTest {
 	
 	@Test
 	public void allTest() {
+		
 		SoccerAttendeesManager manager = new SoccerAttendeesManager(new AttendeesDB());
 		List<String> allSoccerPlayers = manager.getAll();
 		
