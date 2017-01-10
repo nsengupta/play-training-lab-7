@@ -1,4 +1,4 @@
-package services.attendees;
+package services.attendees.starPlayers;
 
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class AttendeesDB {
 		
 		attendees.put("Ronaldo",     new SoccerAttendeeRecord("Ronaldo","Christiano"));
 		attendees.put("Messi",       new SoccerAttendeeRecord("Messi","Lionel"));
-		attendees.put("Ozil",        new SoccerAttendeeRecord("Ozil","Mesit"));
+		/*attendees.put("Ozil",        new SoccerAttendeeRecord("Ozil","Mesit"));
 		attendees.put("Sterling",    new SoccerAttendeeRecord("Sterling","Rehim"));
 		attendees.put("Griezeman",   new SoccerAttendeeRecord("Griezeman","Antoine"));
 		attendees.put("Lewandowski", new SoccerAttendeeRecord("Lewandowski","Robert"));
@@ -23,7 +23,7 @@ public class AttendeesDB {
 		attendees.put("Keane",       new SoccerAttendeeRecord("Keane","Robby"));
 		attendees.put("Gyan",        new SoccerAttendeeRecord("Gyan","Asamoa"));
 		attendees.put("Speed",       new SoccerAttendeeRecord("Speed","Gary"));
-		attendees.put("Kelly",       new SoccerAttendeeRecord("Kelly","Gary"));
+		attendees.put("Kelly",       new SoccerAttendeeRecord("Kelly","Gary"));*/
 	}
 	
 	public List<String> getAll() {

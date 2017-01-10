@@ -16,8 +16,9 @@ libraryDependencies += "org.webjars" % "bootstrap" % "3.3.6"
 
 libraryDependencies ++= Seq(
   "junit" % "junit" % "4.12" % "test",
-  "com.novocode" % "junit-interface" % "0.11" % "test"
+  "com.novocode" % "junit-interface" % "0.11" % "test",
+  "com.typesafe.akka" % "akka-testkit_2.11" % "2.4.16"
 )
 
 
-fork in run := true
+fork in run := false

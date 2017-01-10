@@ -3,7 +3,12 @@ package models.attendees.StarPlayers;
 import java.util.ArrayList;
 import java.util.List;
 
-import services.attendees.AttendeesDB;
+import services.attendees.starPlayers.AttendeesDB;
+import services.attendees.starPlayers.SoccerAttendeesInfoActor;
+import play.mvc.*;
+import akka.actor.ActorSystem;
+import akka.actor.ActorRef;
+import play.api.libs.concurrent.*;
 
 import com.google.inject.Inject;
 
@@ -11,21 +16,25 @@ import models.attendees.AttendeesManager;
 
 public class SoccerAttendeesManager  implements AttendeesManager {
 	
-	private AttendeesDB attendeesDB;
+	final ActorRef attendeeInfoActor;
 
-	@Inject
-	public SoccerAttendeesManager(AttendeesDB attendeesDB) {
-		this.attendeesDB = attendeesDB;
+    @Inject 
+    public SoccerAttendeesManager(ActorSystem system) {
+    	attendeeInfoActor = system.actorOf(SoccerAttendeesInfoActor.props);
+    }
+
+	@Override
+	public List<String> getAll() { 
+		
+		return new ArrayList<String>(); 
+		
 	}
 
 	@Override
-	public List<String> getAll() { return (this.attendeesDB.getAll()); }
-
-	@Override
-	public String getBySurname(String surname) { return (this.attendeesDB.getBySurname(surname)); }
+	public String getBySurname(String surname) { return (surname); }
 		
 	@Override
-	public Integer attendeeCount() { return (this.attendeesDB.attendeeCount()); }
+	public Integer attendeeCount() { return (0); }
 
 	@Override
 	public Integer addNewAttendee(String surname, String firstname) {
