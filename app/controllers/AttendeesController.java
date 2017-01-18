@@ -10,14 +10,18 @@ import java.util.function.Function;
 import models.attendees.StarPlayers.SoccerAttendeeDataCarrier;
 import play.data.Form;
 import play.data.FormFactory;
+import play.libs.ws.WSClient;
+import play.libs.ws.WSRequest;
+import play.libs.ws.WSResponse;
 import play.mvc.Controller;
 import play.mvc.Result;
 import scala.compat.java8.FutureConverters;
 import services.attendees.starPlayers.SoccerAttendeesInfoActor;
 import services.attendees.starPlayers.SoccerInfoMessageProtocol;
-
 import views.html.index;
 import views.html.attendees.list;
+import views.html.attendees.count;
+import views.html.attendees.external;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 
@@ -37,6 +41,8 @@ public class AttendeesController extends Controller {
 	
 	private final ActorRef soccerAttendeesInfoActor;
 	
+	@Inject WSClient ws;
+	
 	@Inject
     public AttendeesController(ActorSystem actorSystem) {
        this.soccerAttendeesInfoActor = actorSystem.actorOf(SoccerAttendeesInfoActor.props,"Soccer-Players-Actor");
@@ -45,6 +51,20 @@ public class AttendeesController extends Controller {
 	
     public Result index() {
         return ok(index.render("Attendees Application is being readied."));
+    }
+    
+public CompletionStage<Result> getTourneys(String year) {
+    	
+    	Function<Object,List<String>> fn = (r) -> {
+    		List<String> s = (ArrayList<String>)r;
+    		return (s);
+    	};
+    	
+        return( FutureConverters.toJava(ask(soccerAttendeesInfoActor,
+			    new SoccerInfoMessageProtocol.GetAllTournamentsMessage(year), 
+				1000))
+                .thenApply(fn)
+                .thenApply(nameList -> ok(list.render(nameList))));
     }
     
     public CompletionStage<Result> getAll() {
@@ -61,7 +81,21 @@ public class AttendeesController extends Controller {
                 .thenApply(nameList -> ok(list.render(nameList))));
     }
     
-    
+    public CompletionStage<Result> externalWS() {
+    	
+    	WSRequest request = ws.url("http://example.com");
+    	
+    	Function<Object,WSResponse> fn = (o) -> {
+    		WSResponse r = (WSResponse) o;
+    		return (r);
+    	};
+    	
+    	return (request
+    			.get()
+    			.thenApply(fn)
+    	        .thenApply(r -> ok(external.render(r.getBody()))));
+    	
+    }
     
     public Result getBySurname(String surname) {
     	

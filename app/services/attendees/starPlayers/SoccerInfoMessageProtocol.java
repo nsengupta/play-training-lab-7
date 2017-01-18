@@ -6,13 +6,23 @@ public class SoccerInfoMessageProtocol {
 	
 	public static class CountMessage { 
 		public String toString() {
-			return ("PingMessage");
+			return ("CountMessage");
 		}
 	}
 	
 	public static class GetAllMessage { 
 		public String toString() {
-			return ("PongMessage");
+			return ("GetAllMessage");
+		}
+	}
+	
+	public static class GetAllTournamentsMessage {
+		public final String year;
+		public GetAllTournamentsMessage(String year) {
+			this.year = year;
+		}
+		public String toString() {
+			return ("GetAllTournamentsMessage");
 		}
 	}
 	
